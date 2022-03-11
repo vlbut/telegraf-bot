@@ -11,9 +11,13 @@ const mainKeyboardButtons = Object.values(wantToHelpData['helpTypes']).map(helpT
 	const actionName = `${prefix}.${helpType.type}`;
 	return [Markup.button.callback(helpType.label, actionName)];
 });
+
 wantHelpComposer.action(mainAction, ctx => {
 	const mainLabel = wantToHelpData['label'];
-	ctx.reply(mainLabel, Markup.inlineKeyboard(mainKeyboardButtons));
+	ctx.reply(
+		mainLabel,
+		Markup.inlineKeyboard([...mainKeyboardButtons, [Markup.button.callback('Вернутся на главное меню', '/start')]]),
+	);
 });
 
 const howToHelpMatcher = new RegExp(`^${prefix}`);
@@ -24,3 +28,5 @@ wantHelpComposer.action(howToHelpMatcher, (ctx, next) => {
 	const howToHelpHandler = howToHelpMapper[howToHelpActionName] || howToHelpMapper['default'];
 	howToHelpHandler(ctx);
 });
+
+wantToHelpData;

@@ -1,13 +1,81 @@
 {
 	"label": "Info section",
-	"buttons": {
-		"info": {
-			"label": "Узнать больше",
-			"methodName": "info"
+	"info": {
+		"whereToGetNews": {
+			"label": "Где брать новости",
+			"innerObjects": [
+				{
+					"label": "Почему нельзя доверять",
+					"innerText": "Почему нельзя доверять текст",
+					"name": "notTrust"
+				},
+				{
+					"label": "проверенные источники",
+					"innerText": "проверенные источники текст",
+					"name": "trustedSources"
+				}
+			]
 		},
-		"wantToHelp": {
-			"label": "Хочу помочь",
-			"methodName": "wantToHelp"
+		"ukraineHasWarProof": {
+			"label": "Доказательства что в Украине война",
+			"innerObjects": [
+				{
+					"label": "Военные преступления",
+					"name": "warCrimes",
+					"innerObjects": [
+						{
+							"label": "Разрушения",
+							"innerText": "Разрушения текст",
+							"name": "distractions"
+						},
+						{
+							"label": "Жертвы среди населения",
+							"innerText": "Жертвы среди населения текст",
+							"name": "victims"
+						},
+						{
+							"label": "ЧАЕС",
+							"innerText": "ЧАЕС текст",
+							"name": "atomic"
+						}
+					]
+				},
+				{
+					"label": "Привлечения рос военных",
+					"name": "attractionRussianMilitary",
+					"innerObjects": [
+						{
+							"label": "Перехваченные аудио",
+							"innerText": "Перехваченные аудио текст",
+							"name": "audioCapture"
+						},
+						{
+							"label": "Российские пленные",
+							"innerText": "Российские пленные текст",
+							"name": "prisoners"
+						}
+					]
+				}
+			]
+		},
+		"sanctions": {
+			"label": "Санкции",
+			"innerObjects": [
+				{
+					"label": "Заблуждения о санкциях",
+					"innerText": "Заблуждения о санкциях текст",
+					"name": "delusionSanctions"
+				},
+				{
+					"label": "Список санкций",
+					"innerText": "Список санкций текст",
+					"name": "sanctionsList"
+				}
+			]
+		},
+		"howToFindSolders": {
+			"label": "Как найти пропавших солдат",
+			"innerText": "Как найти пропавших солдат текст"
 		}
 	}
 }
