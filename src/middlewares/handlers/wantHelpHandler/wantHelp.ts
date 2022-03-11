@@ -1,7 +1,7 @@
 import { Composer, Markup } from 'telegraf';
-import { buttons as welcomeButtons } from '../../db/welcome.json';
-import wantToHelpData from '../../db/whatToHelp.json';
-import { HowToHelpTypes, howToHelpMapper } from './utils/HowToHelpTypes';
+import { buttons as welcomeButtons } from '../../../db/welcome.json';
+import wantToHelpData from '../../../db/whatToHelp.json';
+import { HowToHelpTypes, howToHelpMapper } from '../utils/HowToHelpTypes';
 
 const prefix = 'wantToHelp';
 export const wantHelpComposer = new Composer();
@@ -28,5 +28,3 @@ wantHelpComposer.action(howToHelpMatcher, (ctx, next) => {
 	const howToHelpHandler = howToHelpMapper[howToHelpActionName] || howToHelpMapper['default'];
 	howToHelpHandler(ctx);
 });
-
-wantToHelpData;

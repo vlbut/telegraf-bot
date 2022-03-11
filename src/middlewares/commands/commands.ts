@@ -14,3 +14,7 @@ commandComposer.action('/start', ctx => {
 commandComposer.help((ctx: Context) => {
 	ctx.reply('This is help section');
 });
+
+commandComposer.command('/clearChat', ctx => {
+	ctx.deleteMessage();
+});

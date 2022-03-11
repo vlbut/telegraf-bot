@@ -1,2 +1,2 @@
-export * from './info';
-export * from './wantHelp';
+export * from './infoHandler';
+export * from './wantHelpHandler';
