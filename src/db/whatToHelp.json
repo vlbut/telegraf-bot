@@ -1,0 +1,22 @@
+{
+	"label": "Want to help label",
+	"helpTypes": {
+		"physicalProtest": {
+			"type": "physicalProtest",
+			"label": "Physical Protest!",
+			"innerText": "Physical Protest inner text"
+		},
+		"lawProtest": { "type": "lawProtest", "label": "Law Protest!", "innerText": "LawProtest inner text" },
+		"internetProtest": {
+			"type": "internetProtest",
+			"label": "Internet Protest!",
+			"innerText": "internetProtest inner text"
+		},
+		"informingClosePeople": {
+			"type": "informingClosePeople",
+			"label": "Informing Close People!",
+			"innerText": "informingClosePeople inner text"
+		},
+		"materialAid": { "type": "materialAid", "label": "Material Aid!", "innerText": "materialAid inner text" }
+	}
+}

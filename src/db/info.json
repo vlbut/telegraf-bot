@@ -1,0 +1,13 @@
+{
+	"label": "Info section",
+	"buttons": {
+		"info": {
+			"label": "Узнать больше",
+			"methodName": "info"
+		},
+		"wantToHelp": {
+			"label": "Хочу помочь",
+			"methodName": "wantToHelp"
+		}
+	}
+}
