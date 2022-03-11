@@ -1,5 +1,5 @@
 import { Composer, Markup } from 'telegraf';
-import { getKeyboard } from './utils/getKeyboard';
+import { getKeyboard } from '../../utils/getKeyboard';
 
 export function generateSanctionsComposer(mainAction: string, data) {
 	const handlerComposer = new Composer();

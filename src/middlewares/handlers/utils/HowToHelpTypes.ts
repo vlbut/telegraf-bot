@@ -1,4 +1,5 @@
 import { helpTypes } from '../../../db/whatToHelp.json';
+import { Context } from 'telegraf';
 
 export enum HowToHelpTypes {
 	PhysicalProtest = 'physicalProtest',
@@ -8,31 +9,32 @@ export enum HowToHelpTypes {
 	MaterialAid = 'materialAid',
 }
 
-const physicalProtestHandle = ctx => {
+type howToHelpHandler = (ctx: Context) => void;
+const physicalProtestHandle: howToHelpHandler = ctx => {
 	const innerText = helpTypes[HowToHelpTypes.PhysicalProtest].innerText;
 	ctx.reply(innerText);
 };
-const lawProtestHandle = ctx => {
+const lawProtestHandle: howToHelpHandler = ctx => {
 	const innerText = helpTypes[HowToHelpTypes.LawProtest].innerText;
 	ctx.reply(innerText);
 };
-const internetProtestHandle = ctx => {
+const internetProtestHandle: howToHelpHandler = ctx => {
 	const innerText = helpTypes[HowToHelpTypes.InternetProtest].innerText;
 	ctx.reply(innerText);
 };
-const informingClosePeopleHandle = ctx => {
+const informingClosePeopleHandle: howToHelpHandler = ctx => {
 	const innerText = helpTypes[HowToHelpTypes.InformingClosePeople].innerText;
 	ctx.reply(innerText);
 };
-const materialAidHandle = ctx => {
+const materialAidHandle: howToHelpHandler = ctx => {
 	const innerText = helpTypes[HowToHelpTypes.MaterialAid].innerText;
 	ctx.reply(innerText);
 };
-const defaultHandler = ctx => {
+const defaultHandler: howToHelpHandler = ctx => {
 	ctx.reply('Я не могу подсказать вам по этой команде');
 };
 
-export const howToHelpMapper = {
+export const howToHelpMapper: Record<HowToHelpTypes | 'default', howToHelpHandler> = {
 	[HowToHelpTypes.PhysicalProtest]: physicalProtestHandle,
 	[HowToHelpTypes.LawProtest]: lawProtestHandle,
 	[HowToHelpTypes.InternetProtest]: internetProtestHandle,

@@ -1,4 +1,4 @@
-import { Composer, Context, Markup } from 'telegraf';
+import { Composer, Context } from 'telegraf';
 import { startPage } from '../utils';
 
 export const commandComposer = new Composer();
@@ -13,8 +13,4 @@ commandComposer.action('/start', ctx => {
 
 commandComposer.help((ctx: Context) => {
 	ctx.reply('This is help section');
-});
-
-commandComposer.command('/clearChat', ctx => {
-	ctx.deleteMessage();
 });
