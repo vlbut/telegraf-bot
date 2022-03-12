@@ -1,7 +1,12 @@
 import { Context, Telegraf } from 'telegraf';
 import middlewares from './middlewares';
 
-const token = String(process.env.BOT_TOKEN).trim();
+if (String(process.env.NODE_ENV).trim() === 'development') {
+	console.log('Running in development mode...');
+	require('dotenv').config();
+}
+
+const token = process.env.BOT_TOKEN;
 if (!token) throw new Error('Token not set');
 
 const bot = new Telegraf<Context>(token);
