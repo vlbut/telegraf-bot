@@ -1,7 +1,7 @@
 import { Composer, Markup } from 'telegraf';
 import { buttons as welcomeButtons } from '../../../db/welcome.json';
 import wantToHelpData from '../../../db/whatToHelp.json';
-import { HowToHelpTypes, howToHelpMapper } from '../utils/HowToHelpTypes';
+import { HowToHelpTypes, howToHelpMapper, MAIN_MENU_BUTTON_LABEL } from '../utils';
 
 const prefix = 'wantToHelp';
 export const wantHelpComposer = new Composer();
@@ -16,7 +16,7 @@ wantHelpComposer.action(mainAction, ctx => {
 	const mainLabel = wantToHelpData['label'];
 	ctx.reply(
 		mainLabel,
-		Markup.inlineKeyboard([...mainKeyboardButtons, [Markup.button.callback('Вернутся на главное меню', '/start')]]),
+		Markup.inlineKeyboard([...mainKeyboardButtons, [Markup.button.callback(MAIN_MENU_BUTTON_LABEL, '/start')]]),
 	);
 });
 

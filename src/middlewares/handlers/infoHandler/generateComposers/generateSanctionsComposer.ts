@@ -1,11 +1,12 @@
 import { Composer, Markup } from 'telegraf';
-import { getKeyboard } from '../../utils/getKeyboard';
+import { getKeyboard } from '../../utils';
+import { BACK_BUTTON_LABEL } from '../../utils';
 
 export function generateSanctionsComposer(mainAction: string, data) {
 	const handlerComposer = new Composer();
 
 	const inlineKeyboardButtons = data.innerObjects.map(obj => [Markup.button.callback(obj.label, obj.name)]);
-	inlineKeyboardButtons.push([Markup.button.callback('Назад', mainAction)]);
+	inlineKeyboardButtons.push([Markup.button.callback(BACK_BUTTON_LABEL, mainAction)]);
 	const defaultKeyboard = getKeyboard(mainAction, data.innerObjects);
 
 	handlerComposer.action('sanctions', ctx => {

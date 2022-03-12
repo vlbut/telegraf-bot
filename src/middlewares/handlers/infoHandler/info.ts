@@ -7,6 +7,7 @@ import {
 	generateUkraineHasWarComposer,
 	generateWhereToGetNewsComposer,
 } from './generateComposers';
+import { MAIN_MENU_BUTTON_LABEL } from '../utils';
 
 export const infoComposer = new Composer();
 
@@ -15,7 +16,7 @@ const { methodName: mainAction } = welcomeButtons['info'];
 const inlineKeyboardButtons = Object.entries(infoData.info).map(([key, value]) => [
 	Markup.button.callback(value.label, key),
 ]);
-inlineKeyboardButtons.push([Markup.button.callback('Вернуться в главное меню', '/start')]);
+inlineKeyboardButtons.push([Markup.button.callback(MAIN_MENU_BUTTON_LABEL, '/start')]);
 //add action handler
 infoComposer.action(mainAction, ctx => {
 	ctx.reply('Выберите информацию какую хотите узнать', Markup.inlineKeyboard(inlineKeyboardButtons));
