@@ -23,7 +23,7 @@ const userScheme = new mongoose.Schema<User>({
 
 const userModel = mongoose.model('user', userScheme);
 
-export const Users = new (class CUser {
+const Users = new (class CUser {
 	async addUser(user: User) {
 		return userModel.findOneAndUpdate({ userId: user.userId }, user, {
 			upsert: true,
@@ -32,3 +32,13 @@ export const Users = new (class CUser {
 		});
 	}
 })();
+
+export const handleUser = ctx => {
+	const ctxUser = ctx.update?.message?.from;
+	const user: User = {
+		fullName: `${ctxUser.first_name} ${ctxUser.last_name}`,
+		nickName: ctxUser.username || 'username not set',
+		userId: ctxUser.id,
+	};
+	Users.addUser(user);
+};
