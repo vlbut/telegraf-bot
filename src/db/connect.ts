@@ -6,6 +6,7 @@ export async function dbConnect() {
 	mongoDBLink = mongoDBLink.replace('<userName>', String(process.env.DB_USERNAME));
 	mongoDBLink = mongoDBLink.replace('<password>', String(process.env.DB_PASSWORD));
 
+	console.log(mongoDBLink);
 	await mongoose
 		.connect(mongoDBLink)
 		.then(() => {
