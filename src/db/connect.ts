@@ -13,5 +13,6 @@ export async function dbConnect() {
 		})
 		.catch(err => {
 			console.log('MongoConnection error: ', err.message);
+			process.exit(1);
 		});
 }

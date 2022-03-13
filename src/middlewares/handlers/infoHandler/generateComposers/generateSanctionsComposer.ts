@@ -14,14 +14,13 @@ export async function generateSanctionsComposer(mainAction: string, post: Post |
 		ctx.reply(post.innerText, defaultKeyboard);
 	});
 
-	// const delusionSanctionsLabel = data.innerObjects[0].innerText;
 	const sanctionsChildKeyboard = getKeyboard('sanctions');
 	const delusionSanctionsPost = await Posts.getPostByActionName('delusionSanctions');
 	if (!(delusionSanctionsPost && delusionSanctionsPost.images)) throw new Error(`delusionSanctions importing failed`);
 
 	const delusionSanctionsInnerText = delusionSanctionsPost?.innerText || '';
 	handlerComposer.action('delusionSanctions', async ctx => {
-		ctx.reply('Загружаю ответ...');
+		await ctx.reply('Загружаю ответ...');
 		//parse array of images
 		const imagePaths = delusionSanctionsPost.images.map(imageBase64 => createImageFromBase64(imageBase64));
 		const mediaGroup = imagePaths.map(imgPath => {

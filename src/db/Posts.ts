@@ -8,6 +8,7 @@ export interface Post {
 		buttonLabel: string;
 	}[];
 	images: string[];
+	videos: string[];
 }
 
 const postScheme = new mongoose.Schema<Post>({
@@ -29,6 +30,10 @@ const postScheme = new mongoose.Schema<Post>({
 		required: false,
 	},
 	images: {
+		type: [String],
+		required: false,
+	},
+	videos: {
 		type: [String],
 		required: false,
 	},
