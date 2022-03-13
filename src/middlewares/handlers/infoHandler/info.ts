@@ -1,5 +1,4 @@
 import { Composer, Markup } from 'telegraf';
-import infoData from '../../../db/info.json';
 import {
 	generateHowToFindSoldiersComposer,
 	generateSanctionsComposer,
@@ -17,10 +16,10 @@ Posts.getPostByActionName(mainAction).then(async post => {
 	const inlineKeyboardButtons = post.buttons.map(button => [
 		Markup.button.callback(button.buttonLabel, button.actionName),
 	]);
-	inlineKeyboardButtons.push([Markup.button.callback(MAIN_MENU_BUTTON_LABEL, '/start')]);
+	inlineKeyboardButtons.push([Markup.button.callback(MAIN_MENU_BUTTON_LABEL, '/mainPage')]);
 	//add action handler
 	const mainInnerText = post.innerText;
-	infoComposer.action(mainAction, ctx => {
+	infoComposer.action(mainAction, async ctx => {
 		ctx.reply(mainInnerText, Markup.inlineKeyboard(inlineKeyboardButtons));
 	});
 
@@ -32,11 +31,10 @@ Posts.getPostByActionName(mainAction).then(async post => {
 		Posts.getPostByActionName('whereToGetNews'),
 	]);
 	const [howToFindSolders, sanctions, ukraineHasWarProof, whereToGetNews] = children;
-	// console.log(sanctions);
 	//import child handlers
 	infoComposer.use(
 		generateHowToFindSoldiersComposer(mainAction, howToFindSolders),
-		// generateSanctionsComposer(mainAction, sanctions),
+		await generateSanctionsComposer(mainAction, sanctions),
 		await generateUkraineHasWarComposer(mainAction, ukraineHasWarProof),
 		await generateWhereToGetNewsComposer(mainAction, whereToGetNews),
 	);

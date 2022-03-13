@@ -6,7 +6,7 @@ export function generateHowToFindSoldiersComposer(mainAction: string, data) {
 
 	const defaultReplyKeyboard = Markup.inlineKeyboard([
 		[Markup.button.callback(BACK_BUTTON_LABEL, mainAction)],
-		[Markup.button.callback(MAIN_MENU_BUTTON_LABEL, '/start')],
+		[Markup.button.callback(MAIN_MENU_BUTTON_LABEL, '/mainPage')],
 	]);
 	const mainInnerText = data.innerText;
 	handleComposer.action('howToFindSolders', ctx => {

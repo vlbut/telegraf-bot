@@ -8,7 +8,7 @@ interface MappedKeyboardObject {
 export const getKeyboard = (backAction: string, keyboardObjects?: MappedKeyboardObject[]) => {
 	const mainButtons = getMappedKeyboard(keyboardObjects);
 	mainButtons.push([Markup.button.callback(BACK_BUTTON_LABEL, backAction)]);
-	mainButtons.push([Markup.button.callback(MAIN_MENU_BUTTON_LABEL, '/start')]);
+	mainButtons.push([Markup.button.callback(MAIN_MENU_BUTTON_LABEL, '/mainPage')]);
 	return Markup.inlineKeyboard(mainButtons);
 };
 
