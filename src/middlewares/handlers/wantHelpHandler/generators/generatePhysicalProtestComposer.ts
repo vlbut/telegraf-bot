@@ -42,13 +42,15 @@ export async function generatePhysicalProtestComposer(mainAction: string) {
 	const prisonPostInnerText = prisonPost?.innerText || '';
 	handleComposer.action('physicalProtest.whyNotPrison', async ctx => {
 		await ctx.reply('Загружаю видео, нужно время...');
-		try {
-			await ctx.replyWithVideo({ source: fs.createReadStream(`${__dirname}/../files/whyNotPrison.mp4`) });
+
+		const filePath = `${__dirname}/../files/whyNotPrisond.mp4`;
+		if (fs.existsSync(filePath)) {
+			await ctx.replyWithVideo({ source: filePath });
 			ctx.reply(prisonPostInnerText, physicalProtestChildKeyboard);
-		} catch (e) {
-			console.log(e);
+		} else {
+			console.log('Video file not exists');
 			await ctx.reply('Произошла странная ошибка 😔 Попробуйте другую кнопку');
-			startPage(ctx);
+			return startPage(ctx);
 		}
 	});
 
