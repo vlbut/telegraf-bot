@@ -1,5 +1,4 @@
 import { Composer, Markup } from 'telegraf';
-import { buttons as welcomeButtons } from '../../../db/welcome.json';
 import infoData from '../../../db/info.json';
 import {
 	generateHowToFindSoldiersComposer,
@@ -8,25 +7,37 @@ import {
 	generateWhereToGetNewsComposer,
 } from './generateComposers';
 import { MAIN_MENU_BUTTON_LABEL } from '../utils';
+import { Posts } from '../../../db/Posts';
 
 export const infoComposer = new Composer();
+const mainAction = 'info';
+Posts.getPostByActionName(mainAction).then(async post => {
+	if (!(post && post.buttons)) throw new Error(`${mainAction} importing failed`);
+	//generate keyboard
+	const inlineKeyboardButtons = post.buttons.map(button => [
+		Markup.button.callback(button.buttonLabel, button.actionName),
+	]);
+	inlineKeyboardButtons.push([Markup.button.callback(MAIN_MENU_BUTTON_LABEL, '/start')]);
+	//add action handler
+	const mainInnerText = post.innerText;
+	infoComposer.action(mainAction, ctx => {
+		ctx.reply(mainInnerText, Markup.inlineKeyboard(inlineKeyboardButtons));
+	});
 
-const { methodName: mainAction } = welcomeButtons['info'];
-//generate keyboard
-const inlineKeyboardButtons = Object.entries(infoData.info).map(([key, value]) => [
-	Markup.button.callback(value.label, key),
-]);
-inlineKeyboardButtons.push([Markup.button.callback(MAIN_MENU_BUTTON_LABEL, '/start')]);
-//add action handler
-infoComposer.action(mainAction, ctx => {
-	ctx.reply('Выберите информацию какую хотите узнать', Markup.inlineKeyboard(inlineKeyboardButtons));
+	//get data from db
+	const children = await Promise.all([
+		Posts.getPostByActionName('howToFindSolders'),
+		Posts.getPostByActionName('sanctions'),
+		Posts.getPostByActionName('ukraineHasWarProof'),
+		Posts.getPostByActionName('whereToGetNews'),
+	]);
+	const [howToFindSolders, sanctions, ukraineHasWarProof, whereToGetNews] = children;
+	// console.log(sanctions);
+	//import child handlers
+	infoComposer.use(
+		generateHowToFindSoldiersComposer(mainAction, howToFindSolders),
+		// generateSanctionsComposer(mainAction, sanctions),
+		await generateUkraineHasWarComposer(mainAction, ukraineHasWarProof),
+		await generateWhereToGetNewsComposer(mainAction, whereToGetNews),
+	);
 });
-
-const { howToFindSolders, sanctions, ukraineHasWarProof, whereToGetNews } = infoData.info;
-//import child handlers
-infoComposer.use(
-	generateHowToFindSoldiersComposer(mainAction, howToFindSolders),
-	generateSanctionsComposer(mainAction, sanctions),
-	generateUkraineHasWarComposer(mainAction, ukraineHasWarProof),
-	generateWhereToGetNewsComposer(mainAction, whereToGetNews),
-);

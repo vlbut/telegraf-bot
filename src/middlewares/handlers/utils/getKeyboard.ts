@@ -2,8 +2,8 @@ import { Markup } from 'telegraf';
 import { BACK_BUTTON_LABEL, MAIN_MENU_BUTTON_LABEL } from './buttonLabels';
 
 interface MappedKeyboardObject {
-	label: string;
-	name: string;
+	buttonLabel: string;
+	actionName: string;
 }
 export const getKeyboard = (backAction: string, keyboardObjects?: MappedKeyboardObject[]) => {
 	const mainButtons = getMappedKeyboard(keyboardObjects);
@@ -12,6 +12,6 @@ export const getKeyboard = (backAction: string, keyboardObjects?: MappedKeyboard
 	return Markup.inlineKeyboard(mainButtons);
 };
 
-function getMappedKeyboard(keyboardObjects) {
-	return keyboardObjects?.map(keyboardObj => [Markup.button.callback(keyboardObj.label, keyboardObj.name)]) ?? [];
+function getMappedKeyboard(buttons) {
+	return buttons?.map(b => [Markup.button.callback(b.buttonLabel, b.actionName)]) ?? [];
 }

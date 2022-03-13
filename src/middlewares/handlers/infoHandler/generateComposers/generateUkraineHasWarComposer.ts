@@ -1,49 +1,60 @@
 import { Composer, Markup } from 'telegraf';
 import { getKeyboard } from '../../utils';
+import { Post, Posts } from '../../../../db/Posts';
 
-export function generateUkraineHasWarComposer(mainAction: string, data) {
+export async function generateUkraineHasWarComposer(mainAction: string, post: Post | null) {
+	if (!(post && post.buttons)) throw new Error(`ukraineHasWarProof importing failed`);
+
 	const handleComposer = new Composer();
 
-	const defaultKeyboard = getKeyboard(mainAction, data.innerObjects);
+	const defaultKeyboard = getKeyboard(mainAction, post?.buttons);
+	const mainInnerText = post.innerText;
 	handleComposer.action('ukraineHasWarProof', ctx => {
-		ctx.reply(data.label, defaultKeyboard);
+		ctx.reply(mainInnerText, defaultKeyboard);
 	});
 
-	const warCrimesKeyboard = getKeyboard('ukraineHasWarProof', data.innerObjects[0].innerObjects);
-	const warCrimesLabel = data.innerObjects[0].label;
+	const warCrimesPost = await Posts.getPostByActionName('warCrimes');
+	const warCrimesKeyboard = getKeyboard('ukraineHasWarProof', warCrimesPost?.buttons);
+	const warCrimesLabel = warCrimesPost?.innerText || '';
 	handleComposer.action('warCrimes', ctx => {
 		ctx.reply(warCrimesLabel, warCrimesKeyboard);
 	});
 
 	const warCrimesChildKeyboard = getKeyboard('warCrimes');
-	const distractionsInnerText = data.innerObjects[0].innerObjects[0].innerText;
+	const distractionsPost = await Posts.getPostByActionName('distractions');
+	const distractionsInnerText = distractionsPost?.innerText || '';
 	handleComposer.action('distractions', ctx => {
 		ctx.reply(distractionsInnerText, warCrimesChildKeyboard);
 	});
 
-	const victimsInnerText = data.innerObjects[0].innerObjects[1].innerText;
+	const victimsPost = await Posts.getPostByActionName('victims');
+	const victimsInnerText = victimsPost?.innerText || '';
 	handleComposer.action('victims', ctx => {
 		ctx.reply(victimsInnerText, warCrimesChildKeyboard);
 	});
 
-	const atomicInnerText = data.innerObjects[0].innerObjects[2].innerText;
+	const atomicPost = await Posts.getPostByActionName('atomic');
+	const atomicInnerText = atomicPost?.innerText || '';
 	handleComposer.action('atomic', ctx => {
 		ctx.reply(atomicInnerText, warCrimesChildKeyboard);
 	});
 
-	const attractionRussianMilitaryKeyboard = getKeyboard('ukraineHasWarProof', data.innerObjects[1].innerObjects);
-	const attractionRussianMilitaryLabel = data.innerObjects[1].label;
+	const attractionRussianMilitaryPost = await Posts.getPostByActionName('attractionRussianMilitary');
+	const attractionRussianMilitaryKeyboard = getKeyboard('ukraineHasWarProof', attractionRussianMilitaryPost?.buttons);
+	const attractionRussianMilitaryInnerText = attractionRussianMilitaryPost?.innerText || '';
 	handleComposer.action('attractionRussianMilitary', ctx => {
-		ctx.reply(attractionRussianMilitaryLabel, attractionRussianMilitaryKeyboard);
+		ctx.reply(attractionRussianMilitaryInnerText, attractionRussianMilitaryKeyboard);
 	});
 
 	const attractionRussianMilitaryChildKeyboard = getKeyboard('attractionRussianMilitary');
-	const audioCaptureInnerText = data.innerObjects[1].innerObjects[0].innerText;
+	const audioCapturePost = await Posts.getPostByActionName('audioCapture');
+	const audioCaptureInnerText = audioCapturePost?.innerText || '';
 	handleComposer.action('audioCapture', ctx => {
 		ctx.reply(audioCaptureInnerText, attractionRussianMilitaryChildKeyboard);
 	});
 
-	const prisonersInnerText = data.innerObjects[1].innerObjects[1].innerText;
+	const prisonersPost = await Posts.getPostByActionName('prisoners');
+	const prisonersInnerText = prisonersPost?.innerText || '';
 	handleComposer.action('prisoners', ctx => {
 		ctx.reply(prisonersInnerText, attractionRussianMilitaryChildKeyboard);
 	});
