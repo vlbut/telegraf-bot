@@ -2,7 +2,8 @@ import fs from 'fs';
 import { Composer } from 'telegraf';
 import { getKeyboard } from '../../utils';
 import { Posts } from '../../../../db/Posts';
-import { createImageFromBase64, createVideoFromBase64 } from '../../utils/imageHandler';
+import { createImageFromBase64 } from '../../utils/imageHandler';
+import { startPage } from '../../../utils';
 
 export async function generatePhysicalProtestComposer(mainAction: string) {
 	const handleComposer = new Composer();
@@ -41,8 +42,14 @@ export async function generatePhysicalProtestComposer(mainAction: string) {
 	const prisonPostInnerText = prisonPost?.innerText || '';
 	handleComposer.action('physicalProtest.whyNotPrison', async ctx => {
 		await ctx.reply('Загружаю видео, нужно время...');
-		await ctx.replyWithVideo({ source: fs.createReadStream(`${__dirname}/../files/whyNotPrison.mp4`) });
-		ctx.reply(prisonPostInnerText, physicalProtestChildKeyboard);
+		try {
+			await ctx.replyWithVideo({ source: fs.createReadStream(`${__dirname}/../files/whyNotPrison.mp4`) });
+			ctx.reply(prisonPostInnerText, physicalProtestChildKeyboard);
+		} catch (e) {
+			console.log(e);
+			await ctx.reply('Произошла странная ошибка 😔 Попробуйте другую кнопку');
+			startPage(ctx);
+		}
 	});
 
 	return handleComposer;
