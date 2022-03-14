@@ -10,3 +10,7 @@ export const startPage = async (ctx: Context) => {
 	);
 	ctx.reply(replyText, Markup.inlineKeyboard(markUpButtons));
 };
+
+export const getUserId = ctx => {
+	return ctx.update?.message?.from?.id || ctx.update?.callback_query?.from?.id || undefined;
+};

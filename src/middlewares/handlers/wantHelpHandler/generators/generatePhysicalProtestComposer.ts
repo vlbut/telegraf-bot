@@ -4,6 +4,7 @@ import { getKeyboard } from '../../utils';
 import { Posts } from '../../../../db/Posts';
 import { createImageFromBase64 } from '../../utils/imageHandler';
 import { startPage } from '../../../utils';
+import { REDIS_PREFIX, wrappedHandle } from '../../../../db';
 
 export async function generatePhysicalProtestComposer(mainAction: string) {
 	const handleComposer = new Composer();
@@ -13,46 +14,55 @@ export async function generatePhysicalProtestComposer(mainAction: string) {
 
 	const replyKeyboard = getKeyboard(mainAction, post.buttons);
 	const innerText = post!.innerText || '';
-	handleComposer.action('physicalProtest', ctx => {
-		ctx.reply(innerText, replyKeyboard);
-	});
+	handleComposer.action(
+		'physicalProtest',
+		wrappedHandle(ctx => {
+			ctx.reply(innerText, replyKeyboard);
+		}),
+	);
 
-	const physicalProtestChildKeyboard = getKeyboard('physicalProtest');
+	const physicalProtestChildKeyboard = getKeyboard(`${REDIS_PREFIX}.physicalProtest`);
 	const firedPost = await Posts.getPostByActionName('physicalProtest.fired');
 	if (!(firedPost && firedPost.images)) throw new Error(`physicalProtest.fired importing failed`);
 	const whereToWriteInnerText = firedPost?.innerText || '';
-	handleComposer.action('physicalProtest.fired', async ctx => {
-		await ctx.reply('Загружаю ответ...');
-		//parse array of images
-		const imagePaths = firedPost.images.map(imageBase64 => createImageFromBase64(imageBase64));
-		const mediaGroup = imagePaths.map(imgPath => {
-			const image = fs.readFileSync(imgPath);
-			return { media: { source: image }, type: 'photo' };
-		});
+	handleComposer.action(
+		'physicalProtest.fired',
+		wrappedHandle(async ctx => {
+			await ctx.reply('Загружаю ответ...');
+			//parse array of images
+			const imagePaths = firedPost.images.map(imageBase64 => createImageFromBase64(imageBase64));
+			const mediaGroup = imagePaths.map(imgPath => {
+				const image = fs.readFileSync(imgPath);
+				return { media: { source: image }, type: 'photo' };
+			});
 
-		// @ts-ignore
-		await ctx.replyWithMediaGroup(mediaGroup);
-		ctx.reply(whereToWriteInnerText, physicalProtestChildKeyboard);
-		//remove images
-		imagePaths.map(imgPath => fs.unlink(imgPath, _ => {}));
-	});
+			// @ts-ignore
+			await ctx.replyWithMediaGroup(mediaGroup);
+			ctx.reply(whereToWriteInnerText, physicalProtestChildKeyboard);
+			//remove images
+			imagePaths.map(imgPath => fs.unlink(imgPath, _ => {}));
+		}),
+	);
 
 	const prisonPost = await Posts.getPostByActionName('physicalProtest.whyNotPrison');
 	if (!(prisonPost && prisonPost.videos)) throw new Error(`physicalProtest.whyNotPrison importing failed`);
 	const prisonPostInnerText = prisonPost?.innerText || '';
-	handleComposer.action('physicalProtest.whyNotPrison', async ctx => {
-		await ctx.reply('Загружаю видео, нужно время...');
+	handleComposer.action(
+		'physicalProtest.whyNotPrison',
+		wrappedHandle(async ctx => {
+			await ctx.reply('Загружаю видео, нужно время...');
 
-		const filePath = `${__dirname}/../files/whyNotPrison.mp4`;
-		if (fs.existsSync(filePath)) {
-			await ctx.replyWithVideo({ source: filePath });
-			ctx.reply(prisonPostInnerText, physicalProtestChildKeyboard);
-		} else {
-			console.log('Video file not exists');
-			await ctx.reply('Произошла странная ошибка 😔 Попробуйте другую кнопку');
-			return startPage(ctx);
-		}
-	});
+			const filePath = `${__dirname}/../files/whyNotPrison.mp4`;
+			if (fs.existsSync(filePath)) {
+				await ctx.replyWithVideo({ source: filePath });
+				ctx.reply(prisonPostInnerText, physicalProtestChildKeyboard);
+			} else {
+				console.log('Video file not exists');
+				await ctx.reply('Произошла странная ошибка 😔 Попробуйте другую кнопку');
+				return startPage(ctx);
+			}
+		}),
+	);
 
 	return handleComposer;
 }

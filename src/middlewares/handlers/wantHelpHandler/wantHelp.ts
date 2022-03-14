@@ -6,6 +6,7 @@ import { generateLawProtestComposer } from './generators/generateLawProtestCompo
 import { generateInternetProtestComposer } from './generators/generateInternetProtestComposer';
 import { generateInformingClosePeopleComposer } from './generators/generateInformingClosePeopleComposer';
 import { generateMaterialAidComposer } from './generators/generateMaterialAidComposer';
+import { wrappedHandle } from '../../../db';
 
 export const wantToHelpComposer = new Composer();
 const mainAction = 'wantToHelp';
@@ -18,9 +19,12 @@ Posts.getPostByActionName(mainAction).then(async post => {
 	inlineKeyboardButtons.push([Markup.button.callback(MAIN_MENU_BUTTON_LABEL, '/mainPage')]);
 	//add action handler
 	const mainInnerText = post.innerText;
-	wantToHelpComposer.action(mainAction, async ctx => {
-		ctx.reply(mainInnerText, Markup.inlineKeyboard(inlineKeyboardButtons));
-	});
+	wantToHelpComposer.action(
+		mainAction,
+		wrappedHandle(async ctx => {
+			ctx.reply(mainInnerText, Markup.inlineKeyboard(inlineKeyboardButtons));
+		}),
+	);
 
 	//import child handlers
 	wantToHelpComposer.use(

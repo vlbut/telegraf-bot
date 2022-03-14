@@ -7,6 +7,7 @@ import {
 } from './generateComposers';
 import { MAIN_MENU_BUTTON_LABEL } from '../utils';
 import { Posts } from '../../../db/Posts';
+import { wrappedHandle } from '../../../db';
 
 export const infoComposer = new Composer();
 const mainAction = 'info';
@@ -19,9 +20,12 @@ Posts.getPostByActionName(mainAction).then(async post => {
 	inlineKeyboardButtons.push([Markup.button.callback(MAIN_MENU_BUTTON_LABEL, '/mainPage')]);
 	//add action handler
 	const mainInnerText = post.innerText;
-	infoComposer.action(mainAction, async ctx => {
-		ctx.reply(mainInnerText, Markup.inlineKeyboard(inlineKeyboardButtons));
-	});
+	infoComposer.action(
+		mainAction,
+		wrappedHandle(async ctx => {
+			ctx.reply(mainInnerText, Markup.inlineKeyboard(inlineKeyboardButtons));
+		}),
+	);
 
 	//get data from db
 	const children = await Promise.all([

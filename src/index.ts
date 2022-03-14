@@ -1,5 +1,5 @@
 import { Context, Telegraf } from 'telegraf';
-import { dbConnect } from './db/connect';
+import { mongodbConnect, redisdbConnect } from './db';
 import middlewares from './middlewares';
 
 if (String(process.env.NODE_ENV).trim() === 'development') {
@@ -13,10 +13,13 @@ if (!token) throw new Error('Token not set');
 const bot = new Telegraf<Context>(token);
 
 (async function () {
-	await dbConnect();
+	await mongodbConnect();
+	await redisdbConnect();
 
 	bot.use(middlewares);
-	bot.launch();
+	await bot.launch();
+
+	console.log('Bot launched...');
 })();
 
 process.once('SIGINT', () => bot.stop('SIGINT'));

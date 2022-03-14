@@ -1,16 +1,20 @@
 import { Composer } from 'telegraf';
 import { getKeyboard } from '../../utils';
 import { Posts } from '../../../../db/Posts';
+import { REDIS_PREFIX, wrappedHandle } from '../../../../db';
 
 export async function generateInternetProtestComposer(mainAction: string) {
 	const handleComposer = new Composer();
 
-	const replyKeyboard = getKeyboard(mainAction);
+	const replyKeyboard = getKeyboard(`${REDIS_PREFIX}.${mainAction}`);
 	const post = await Posts.getPostByActionName('internetProtest');
 	const innerText = post!.innerText || '';
-	handleComposer.action('internetProtest', ctx => {
-		ctx.reply(innerText, replyKeyboard);
-	});
+	handleComposer.action(
+		'internetProtest',
+		wrappedHandle(ctx => {
+			ctx.reply(innerText, replyKeyboard);
+		}),
+	);
 
 	return handleComposer;
 }
