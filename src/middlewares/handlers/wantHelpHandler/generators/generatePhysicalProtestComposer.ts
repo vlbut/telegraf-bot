@@ -43,7 +43,7 @@ export async function generatePhysicalProtestComposer(mainAction: string) {
 	handleComposer.action('physicalProtest.whyNotPrison', async ctx => {
 		await ctx.reply('Загружаю видео, нужно время...');
 
-		const filePath = `${__dirname}/../files/whyNotPrisond.mp4`;
+		const filePath = `${__dirname}/../files/whyNotPrison.mp4`;
 		if (fs.existsSync(filePath)) {
 			await ctx.replyWithVideo({ source: filePath });
 			ctx.reply(prisonPostInnerText, physicalProtestChildKeyboard);
