@@ -6,7 +6,7 @@ import { REDIS_PREFIX, wrappedHandle } from '../../../../db';
 export async function generateWhereToGetNewsComposer(mainAction: string, data) {
 	const handlerComposer = new Composer();
 
-	const defaultKeyboard = getKeyboard(mainAction, data.buttons);
+	const defaultKeyboard = getKeyboard({ backAction: mainAction, keyboardObjects: data.buttons });
 	const mainInnerText = data.innerText;
 	handlerComposer.action(
 		'whereToGetNews',
@@ -15,7 +15,7 @@ export async function generateWhereToGetNewsComposer(mainAction: string, data) {
 		}),
 	);
 
-	const whereToGetNewsChildKeyboard = getKeyboard(`${REDIS_PREFIX}.whereToGetNews`);
+	const whereToGetNewsChildKeyboard = getKeyboard({ prefix: REDIS_PREFIX, backAction: 'whereToGetNews' });
 	const notTrustPost = await Posts.getPostByActionName('notTrust');
 	const notTrustInnerText = notTrustPost!.innerText || '';
 	handlerComposer.action(

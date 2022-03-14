@@ -5,10 +5,18 @@ interface MappedKeyboardObject {
 	buttonLabel: string;
 	actionName: string;
 }
-export const getKeyboard = (backAction: string, keyboardObjects?: MappedKeyboardObject[]) => {
+export const getKeyboard = ({
+	prefix = '',
+	backAction,
+	keyboardObjects,
+}: {
+	prefix?: string;
+	backAction: string;
+	keyboardObjects?: MappedKeyboardObject[];
+}) => {
 	const mainButtons = getMappedKeyboard(keyboardObjects);
-	mainButtons.push([Markup.button.callback(BACK_BUTTON_LABEL, backAction)]);
-	mainButtons.push([Markup.button.callback(MAIN_MENU_BUTTON_LABEL, '/mainPage')]);
+	mainButtons.push([Markup.button.callback(BACK_BUTTON_LABEL, `${prefix}${backAction}`)]);
+	mainButtons.push([Markup.button.callback(MAIN_MENU_BUTTON_LABEL, `${prefix}/mainPage`)]);
 	return Markup.inlineKeyboard(mainButtons);
 };
 

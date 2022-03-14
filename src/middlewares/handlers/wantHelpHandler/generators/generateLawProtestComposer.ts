@@ -11,7 +11,7 @@ export async function generateLawProtestComposer(mainAction: string) {
 	const post = await Posts.getPostByActionName('lawProtest');
 	if (!(post && post.buttons)) throw new Error(`lawProtest importing failed`);
 
-	const replyKeyboard = getKeyboard(mainAction, post.buttons);
+	const replyKeyboard = getKeyboard({ backAction: mainAction, keyboardObjects: post.buttons });
 	const innerText = post!.innerText || '';
 	handleComposer.action(
 		'lawProtest',
@@ -20,7 +20,7 @@ export async function generateLawProtestComposer(mainAction: string) {
 		}),
 	);
 
-	const lawChildKeyboard = getKeyboard(`${REDIS_PREFIX}.lawProtest`);
+	const lawChildKeyboard = getKeyboard({ prefix: REDIS_PREFIX, backAction: 'lawProtest' });
 	const whereToWritePost = await Posts.getPostByActionName('law.whereToWrite');
 	if (!(whereToWritePost && whereToWritePost.images)) throw new Error(`law.whereToWrite importing failed`);
 

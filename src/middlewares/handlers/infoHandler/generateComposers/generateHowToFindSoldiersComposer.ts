@@ -6,8 +6,8 @@ export function generateHowToFindSoldiersComposer(mainAction: string, data) {
 	const handleComposer = new Composer();
 
 	const defaultReplyKeyboard = Markup.inlineKeyboard([
-		[Markup.button.callback(BACK_BUTTON_LABEL, `${REDIS_PREFIX}.${mainAction}`)],
-		[Markup.button.callback(MAIN_MENU_BUTTON_LABEL, '/mainPage')],
+		[Markup.button.callback(BACK_BUTTON_LABEL, `${REDIS_PREFIX}${mainAction}`)],
+		[Markup.button.callback(MAIN_MENU_BUTTON_LABEL, `${REDIS_PREFIX}/mainPage`)],
 	]);
 	const mainInnerText = data.innerText;
 	handleComposer.action(

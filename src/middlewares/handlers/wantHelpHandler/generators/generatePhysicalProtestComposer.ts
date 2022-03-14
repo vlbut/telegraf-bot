@@ -12,7 +12,7 @@ export async function generatePhysicalProtestComposer(mainAction: string) {
 	const post = await Posts.getPostByActionName('physicalProtest');
 	if (!(post && post.buttons)) throw new Error(`physicalProtest importing failed`);
 
-	const replyKeyboard = getKeyboard(mainAction, post.buttons);
+	const replyKeyboard = getKeyboard({ backAction: mainAction, keyboardObjects: post.buttons });
 	const innerText = post!.innerText || '';
 	handleComposer.action(
 		'physicalProtest',
@@ -21,7 +21,7 @@ export async function generatePhysicalProtestComposer(mainAction: string) {
 		}),
 	);
 
-	const physicalProtestChildKeyboard = getKeyboard(`${REDIS_PREFIX}.physicalProtest`);
+	const physicalProtestChildKeyboard = getKeyboard({ prefix: REDIS_PREFIX, backAction: `physicalProtest` });
 	const firedPost = await Posts.getPostByActionName('physicalProtest.fired');
 	if (!(firedPost && firedPost.images)) throw new Error(`physicalProtest.fired importing failed`);
 	const whereToWriteInnerText = firedPost?.innerText || '';

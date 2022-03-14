@@ -8,7 +8,7 @@ export async function generateUkraineHasWarComposer(mainAction: string, post: Po
 
 	const handleComposer = new Composer();
 
-	const defaultKeyboard = getKeyboard(mainAction, post?.buttons);
+	const defaultKeyboard = getKeyboard({ backAction: mainAction, keyboardObjects: post?.buttons });
 	const mainInnerText = post.innerText;
 	handleComposer.action(
 		'ukraineHasWarProof',
@@ -18,7 +18,10 @@ export async function generateUkraineHasWarComposer(mainAction: string, post: Po
 	);
 
 	const warCrimesPost = await Posts.getPostByActionName('warCrimes');
-	const warCrimesKeyboard = getKeyboard('ukraineHasWarProof', warCrimesPost?.buttons);
+	const warCrimesKeyboard = getKeyboard({
+		backAction: 'ukraineHasWarProof',
+		keyboardObjects: warCrimesPost?.buttons,
+	});
 	const warCrimesLabel = warCrimesPost?.innerText || '';
 	handleComposer.action(
 		'warCrimes',
@@ -27,7 +30,7 @@ export async function generateUkraineHasWarComposer(mainAction: string, post: Po
 		}),
 	);
 
-	const warCrimesChildKeyboard = getKeyboard(`${REDIS_PREFIX}.warCrimes`);
+	const warCrimesChildKeyboard = getKeyboard({ prefix: REDIS_PREFIX, backAction: 'warCrimes' });
 	const distractionsPost = await Posts.getPostByActionName('distractions');
 	const distractionsInnerText = distractionsPost?.innerText || '';
 	handleComposer.action(
@@ -56,7 +59,10 @@ export async function generateUkraineHasWarComposer(mainAction: string, post: Po
 	);
 
 	const attractionRussianMilitaryPost = await Posts.getPostByActionName('attractionRussianMilitary');
-	const attractionRussianMilitaryKeyboard = getKeyboard('ukraineHasWarProof', attractionRussianMilitaryPost?.buttons);
+	const attractionRussianMilitaryKeyboard = getKeyboard({
+		backAction: 'ukraineHasWarProof',
+		keyboardObjects: attractionRussianMilitaryPost?.buttons,
+	});
 	const attractionRussianMilitaryInnerText = attractionRussianMilitaryPost?.innerText || '';
 	handleComposer.action(
 		'attractionRussianMilitary',
@@ -65,7 +71,10 @@ export async function generateUkraineHasWarComposer(mainAction: string, post: Po
 		}),
 	);
 
-	const attractionRussianMilitaryChildKeyboard = getKeyboard(`${REDIS_PREFIX}.attractionRussianMilitary`);
+	const attractionRussianMilitaryChildKeyboard = getKeyboard({
+		prefix: REDIS_PREFIX,
+		backAction: 'attractionRussianMilitary',
+	});
 	const audioCapturePost = await Posts.getPostByActionName('audioCapture');
 	const audioCaptureInnerText = audioCapturePost?.innerText || '';
 	handleComposer.action(

@@ -6,7 +6,7 @@ import { REDIS_PREFIX, wrappedHandle } from '../../../../db';
 export async function generateMaterialAidComposer(mainAction: string) {
 	const handleComposer = new Composer();
 
-	const replyKeyboard = getKeyboard(`${REDIS_PREFIX}.${mainAction}`);
+	const replyKeyboard = getKeyboard({ prefix: REDIS_PREFIX, backAction: mainAction });
 	const post = await Posts.getPostByActionName('materialAid');
 	const innerText = post!.innerText || '';
 	handleComposer.action(

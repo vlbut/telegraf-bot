@@ -1,5 +1,5 @@
 import { Context, Telegraf } from 'telegraf';
-import { mongodbConnect, redisdbConnect } from './db';
+import { mongodbConnect } from './db';
 import middlewares from './middlewares';
 
 if (String(process.env.NODE_ENV).trim() === 'development') {
@@ -14,7 +14,6 @@ const bot = new Telegraf<Context>(token);
 
 (async function () {
 	await mongodbConnect();
-	await redisdbConnect();
 
 	bot.use(middlewares);
 	await bot.launch();

@@ -10,7 +10,7 @@ export async function generateSanctionsComposer(mainAction: string, post: Post |
 
 	const handlerComposer = new Composer();
 
-	const defaultKeyboard = getKeyboard(mainAction, post.buttons);
+	const defaultKeyboard = getKeyboard({ backAction: mainAction, keyboardObjects: post.buttons });
 	handlerComposer.action(
 		'sanctions',
 		wrappedHandle(ctx => {
@@ -18,7 +18,7 @@ export async function generateSanctionsComposer(mainAction: string, post: Post |
 		}),
 	);
 
-	const sanctionsChildKeyboard = getKeyboard(`${REDIS_PREFIX}.sanctions`);
+	const sanctionsChildKeyboard = getKeyboard({ prefix: REDIS_PREFIX, backAction: 'sanctions' });
 	const delusionSanctionsPost = await Posts.getPostByActionName('delusionSanctions');
 	if (!(delusionSanctionsPost && delusionSanctionsPost.images)) throw new Error(`delusionSanctions importing failed`);
 
@@ -43,7 +43,7 @@ export async function generateSanctionsComposer(mainAction: string, post: Post |
 	);
 
 	const sanctionsListPost = await Posts.getPostByActionName('sanctionsList');
-	const sanctionsListKeyboard = getKeyboard('sanctions', sanctionsListPost?.buttons);
+	const sanctionsListKeyboard = getKeyboard({ backAction: 'sanctions', keyboardObjects: sanctionsListPost?.buttons });
 	const sanctionsListInnerText = sanctionsListPost?.innerText || '';
 	handlerComposer.action(
 		'sanctionsList',
@@ -53,7 +53,7 @@ export async function generateSanctionsComposer(mainAction: string, post: Post |
 	);
 
 	const firstSanctionPost = await Posts.getPostByActionName('firstSanctionList');
-	const firstSanctionKeyboard = getKeyboard(`${REDIS_PREFIX}.sanctionsList`);
+	const firstSanctionKeyboard = getKeyboard({ prefix: REDIS_PREFIX, backAction: 'sanctionsList' });
 	const firstSanctionInnerText = firstSanctionPost?.innerText || '';
 	handlerComposer.action(
 		'firstSanctionList',
@@ -63,7 +63,7 @@ export async function generateSanctionsComposer(mainAction: string, post: Post |
 	);
 
 	const secondSanctionPost = await Posts.getPostByActionName('secondSanctionList');
-	const secondSanctionKeyboard = getKeyboard(`${REDIS_PREFIX}.sanctionsList`);
+	const secondSanctionKeyboard = getKeyboard({ prefix: REDIS_PREFIX, backAction: 'sanctionsList' });
 	const secondSanctionInnerText = secondSanctionPost?.innerText || '';
 	handlerComposer.action(
 		'secondSanctionList',
@@ -73,7 +73,7 @@ export async function generateSanctionsComposer(mainAction: string, post: Post |
 	);
 
 	const thirdSanctionPost = await Posts.getPostByActionName('thirdSanctionList');
-	const thirdSanctionKeyboard = getKeyboard(`${REDIS_PREFIX}.sanctionsList`);
+	const thirdSanctionKeyboard = getKeyboard({ prefix: REDIS_PREFIX, backAction: 'sanctionsList' });
 	const thirdSanctionInnerText = thirdSanctionPost?.innerText || '';
 	handlerComposer.action(
 		'thirdSanctionList',
