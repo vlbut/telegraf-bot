@@ -10,7 +10,7 @@
 	"scripts": {
 		"build": "tsc",
 		"copy:video": "copyfiles --flat src/middlewares/handlers/wantHelpHandler/files/whyNotPrison.mp4 dist/middlewares/handlers/wantHelpHandler/files",
-		"start": "npm run copy:video && node dist/index.js",
+		"start": "npm run build && npm run copy:video && node dist/index.js",
 		"start:dev": "set NODE_ENV=development && ts-node-dev src/index.ts",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
