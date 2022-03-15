@@ -44,13 +44,16 @@ So you need to create `.env` file and add your bot token:
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- Running -->
-##Running
-###Development mode
+## Running
+
+### Development mode
+
 To start project in development mode run:
    ```
    npm run start:dev
    ```
-###Production mode
+### Production mode
+
 To start project in production mode run:
    ```
    npm run start
