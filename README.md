@@ -4,7 +4,8 @@ This bot was written to inform the population of Russia about the real sorrowful
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-
+### Alive bot is here
+[@russianpravda_bot](https://t.me/russianpravda_bot)
 
 ### Built With
 
