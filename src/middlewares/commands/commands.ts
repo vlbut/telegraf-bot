@@ -26,6 +26,11 @@ commandComposer.action(
 	}),
 );
 
-commandComposer.help((ctx: Context) => {
-	ctx.reply('This is help section');
-});
+commandComposer.help(
+	wrappedHandle(async ctx => {
+		await ctx.reply(
+			'Да поможет нам Бог узнать правду 🙏\n\nПросто выбирай секцию о которой хочешь узнать с помощью кнопок.\nНенужные сообщения будут удаляться.',
+		);
+		startPage(ctx);
+	}),
+);
