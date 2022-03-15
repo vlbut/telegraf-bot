@@ -9,6 +9,7 @@ This bot was written to inform the population of Russia about the real sorrowful
 ### Built With
 
 * [Node.js](https://nodejs.org/en/)
+* [Typescript](https://www.typescriptlang.org/)
 * [Telegraf-bot](https://telegraf.js.org/)
 * [MongoDB](https://www.mongodb.com/)
 * [Mongoose](https://mongoosejs.com/)
