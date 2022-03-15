@@ -33,7 +33,7 @@ For using this bot you need to register new bot via BotFather in telegram social
    ```sh
    npm install
    ```
-4. Bot gets data from MongoDB database. For getting access to database write me [b.butovskyi@gmal.com](mailto:b.butovskyi@gmail.com)
+4. Bot gets data from MongoDB database. For getting access to database write me [b.butovskyi@gmail.com](mailto:b.butovskyi@gmail.com)
 5. Project uses [dotenv](https://www.npmjs.com/package/dotenv) package  that loads environment variables from `.env` file.
 So you need to create `.env` file and add your bot token: 
    ```js
